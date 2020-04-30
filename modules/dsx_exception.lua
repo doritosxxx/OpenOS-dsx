@@ -1,4 +1,4 @@
-local Workspace = require("dsx_workspace2")
+local Workspace = require("dsx_workspace")
 local Element = require("dsx_element")
 local gpu = require("component").gpu
 local constants = require("dsx_constants")

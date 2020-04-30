@@ -8,15 +8,6 @@ local Element = {
 	ALIGN_END = -4,
 	TRANSPARENT = -5
 }
---[[ TODO
-local OBJECT = {
-	properties = {}
-}
-function OBJECT:set( key, newvalue )
-
-end
-
-]]--
 
 local Block = {}
 function Block:new( x, y, width, height, background, callback )

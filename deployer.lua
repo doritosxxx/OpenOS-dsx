@@ -1,3 +1,15 @@
+local CONFIG = {
+	name = "dsx template project"
+}
+
+local modules = {
+	"dsx_buttons", "dsx_exception", "dsx_workspace", "event", "dsx_element"
+}
+local apps = {
+	"reinstall","server"
+}
+local github = "https://raw.githubusercontent.com/doritosxxx/OpenOS-dsx/master"
+
 local component = require("component")
 if not component.isAvailable("internet") then
     io.stderr:write("An internet card is required!")
@@ -7,28 +19,6 @@ local computer = require("computer")
 local shell = require("shell")
 local fs = require("filesystem")
 
-local CONFIG = {
-	name = "dsx-casino"
-}
-
-local modules = {
-	"dsx_buttons", "dsx_constants", "dsx_db",
-	"dsx_exception", "dsx_polygon", "dsx_text", "dsx_workspace",
-	"event", "dsx_workspace2", "dsx_element"
-}
-local apps = {
-	"manager", "roulette", "terminal_out","terminal_in", 
-	"reinstall", "terminal_check", "top", "server"
-}
-
-local github = "https://raw.githubusercontent.com/ddositos/OpenOS-casino/master"
-
-
-local function writeToFile(path, content)
-    local file = io.open(path, "w")
-    file:write(content)
-    file:close()
-end
 
 local function load_modules()
 	print("Загрузка модулей")
@@ -71,6 +61,10 @@ local function load_launcher()
 		"wget -fq %s/launcher.lua /home/launcher.lua",
 		github
 	))
+	shell.execute(string.format(
+		"wget -fq %s/deployer.lua /home/deployer.lua",
+		github
+	))
 	local shrc = io.open("/home/.shrc", "w")
 	shrc:write("/home/launcher.lua\n")
 	shrc:close()
@@ -85,7 +79,6 @@ local function deploy()
     print('Application successfully deployed.')
 end
 
-print("dsx-casino Deployer 0.1\n")
 deploy()
 print("Press ENTER to restart...")
 io.read()

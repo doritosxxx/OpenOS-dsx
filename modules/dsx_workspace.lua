@@ -1,40 +1,25 @@
 local gpu = require("component").gpu
 local Buttons = require("dsx_buttons")
-local Polygon = require("dsx_polygon")
-local Text = require("dsx_text")
+local Element = require("dsx_element")
 
 local Workspace = {}
 
 function Workspace:new(width, height)
-	local obj = {}
+	if width == nil or height == nil then
+		width, height = gpu.getResolution()
+	end
+	local obj = Element.block( 1, 1, width, height)
 	obj.buttons = Buttons:new()
-	obj.elements = {}
-	obj.width = width
-	obj.height = height
-
-
-	function obj:bind(x, y, width, height, background, callback)
-		table.insert(self.elements, Polygon:new(x, y, width, height, background))
-
-		if callback then
-			self.buttons:register(x,y,width,height,callback)
-		end
+	obj.root = obj
+	obj.background = Element.TRANSPARENT
+	local values_to_copy = {'x', 'y', 'width', 'height'}
+	for _,property in ipairs(values_to_copy) do
+		obj.computed[property] = obj[property]
 	end
-
-	function obj:text(x,y,text, background, foreground)
-		table.insert(self.elements, Text:new(x,y,text, background, foreground))
-	end
-
-	function obj:draw()
-		if width and height then
-			gpu.setResolution(self.width, self.height)
-		end
-		for _, element in pairs(obj.elements) do
-			element:draw()
-		end
-	end
+	obj.computed.background = 0x000000
 
 	function obj:debug()
+		self.debug_enabled = true
 		self.buttons:register(1, 1, self.width, self.height, function(x,y)
 			local colorB, modeB = gpu.setBackground(0x000000)
 			local colorF, modeF = gpu.setForeground(0xffffff)
@@ -43,8 +28,26 @@ function Workspace:new(width, height)
 			gpu.setForeground(colorF, modeF)
 		end)
 	end
-	
 
+
+	function obj:draw()
+		gpu.setResolution(self.width, self.height)
+ 
+		for _, element in pairs(self.elements) do
+			element:draw()
+		end
+
+		if self.debug_enabled then
+			while true do
+				self:pull()
+			end
+		end
+
+	end
+
+	function obj:pull(...)
+		return self.buttons:pull(...)
+	end
 
 	setmetatable(obj, self)
 	self.__index = self

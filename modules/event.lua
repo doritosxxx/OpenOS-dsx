@@ -1,3 +1,4 @@
+---стандартная библиотека event с отключенным interruption
 local computer = require("computer")
 local keyboard = require("keyboard")
 

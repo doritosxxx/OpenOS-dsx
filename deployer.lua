@@ -82,3 +82,4 @@ end
 deploy()
 print("Press ENTER to restart...")
 io.read()
+shell.execute("reboot")

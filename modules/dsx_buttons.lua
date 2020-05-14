@@ -4,11 +4,12 @@ local event = require("event")
 
 local Buttons = {}
 
-function Buttons:new()
+function Buttons:new( workspace )
 	local obj = {}
 	obj.list = {}
+	obj.workspace = workspace
 
-	function obj:register(x,y,width,height, callback)
+	function obj:register( x, y, width, height, callback)
 		table.insert(self.list, {
 			x=x,
 			y=y,
@@ -27,6 +28,9 @@ function Buttons:new()
 		--only for virtual machine
 		if nickname == nil then
 			nickname = "doritosxxx"
+		end
+		if self.workspace.focus ~= nil then
+			self.workspace.focus:unfocus()
 		end
 		for i = #self.list, 1,-1 do
 			local button = self.list[i]

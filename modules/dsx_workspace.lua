@@ -9,7 +9,7 @@ function Workspace:new(width, height)
 		width, height = gpu.getResolution()
 	end
 	local obj = Element.block( 1, 1, width, height)
-	obj.buttons = Buttons:new()
+	obj.buttons = Buttons:new(obj)
 	obj.root = obj
 	obj.background = Element.TRANSPARENT
 	local values_to_copy = {'x', 'y', 'width', 'height'}
@@ -17,6 +17,7 @@ function Workspace:new(width, height)
 		obj.computed[property] = obj[property]
 	end
 	obj.computed.background = 0x000000
+	obj.focus = nil
 
 	function obj:debug()
 		self.debug_enabled = true
@@ -45,8 +46,8 @@ function Workspace:new(width, height)
 
 	end
 
-	function obj:pull(...)
-		return self.buttons:pull(...)
+	function obj:pull( ... )
+		return self.buttons:pull( ... )
 	end
 
 	setmetatable(obj, self)

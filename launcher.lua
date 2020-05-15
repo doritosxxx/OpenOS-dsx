@@ -67,8 +67,8 @@ function configure_admins()
 		:add(
 			Element.block( 0, Element.ALIGN_END, Element.INHERIT, 5, color.white, function()
 				return action.continue
-			end))
-			:add(Element.text(Element.ALIGN_CENTER, Element.ALIGN_CENTER, "Продолжить", color.black)
+			end)
+			:add(Element.text(Element.ALIGN_CENTER, Element.ALIGN_CENTER, "Продолжить", color.black))
 		)
 		:add(Element.text(Element.ALIGN_CENTER, 1, 
 		"Нажмите на экран, чтобы назначить себя администратором", color.title))
@@ -111,7 +111,7 @@ function configure_token()
 		Element.block(0,0, Element.INHERIT, Element.INHERIT, color.black)
 		:add(Element.text(Element.ALIGN_CENTER, 1, "Введите токен", color.title))
 		:add(Element.text(Element.ALIGN_CENTER, 3, "Токен нужен для соединения компьютеров в сеть", color.white))
-		:add(Element.text(Element.ALIGN_CENTER, 4, "Введите любую строку, например, " .. get_random_token(), color.white))
+		:add(Element.text(Element.ALIGN_CENTER, 4, "Введите любую строку (без юникода), например, " .. get_random_token(), color.white))
 	):draw()
 
 	term.setCursor( 4,7 )
@@ -134,6 +134,8 @@ if not fs.exists(tokenpath) then
 else 
 	token = file_read( tokenpath )
 end
+
+term.clear()
 
 local wsclear = Workspace:new()
 :add(Element.block(0,0,Element.INHERIT, Element.INHERIT, color.black))
@@ -201,6 +203,7 @@ while 1 do
 end
 
 if id == 1+#apps then
+	term.clear()
 	return 
 end
 

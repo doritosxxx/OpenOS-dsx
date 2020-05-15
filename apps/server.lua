@@ -15,7 +15,7 @@ function file_read( path )
 	file:close()
 	return data
 end
-
+	
 function file_write( path, data )
 	local file, reason = io.open( path, "w" )
 	if file == nil then
